@@ -1,22 +1,9 @@
 <script>
   import { getContext, onDestroy } from "svelte";
-  import {
-    CellOptions,
-    CellOptionsAdvanced,
-    SuperButton,
-    SuperField,
-    SuperFieldOptions,
-  } from "@poirazis/supercomponents-shared";
+  import { CellTags, SuperField } from "@poirazis/supercomponents-shared";
 
-  const {
-    styleable,
-    enrichButtonActions,
-    Provider,
-    createValidatorFromConstraints,
-    builderStore,
-  } = getContext("sdk");
+  const { styleable, Provider, builderStore } = getContext("sdk");
   const component = getContext("component");
-  const allContext = getContext("context");
 
   const formContext = getContext("form");
   const formStepContext = getContext("form-step");
@@ -27,10 +14,11 @@
   const formApi = formContext?.formApi;
 
   export let field = "Tags Field";
+  export let fieldType = "string"; // "string" | "array"
+  export let fieldString; // used if fieldType is string
+  export let fieldArray; // used if fieldType is array
   export let controlType = "select";
   export let role = "formInput";
-
-  export let buttons = [];
 
   export let label = "Tags Field";
   export let span = 6;
@@ -50,21 +38,12 @@
   export let showDirty;
   export let autofocus;
 
-  export let optionsSource = "schema";
   export let datasource;
   export let limit;
-  export let sortColumn;
-  export let sortOrder;
   export let filter;
   export let valueColumn;
-  export let labelColumn;
-  export let iconColumn;
-  export let colorColumn;
-  export let customOptions;
-  export let reorderOnly;
   export let optionsViewMode;
-  export let direction;
-  export let toggleAll;
+  export let suggestions = false;
 
   let formField;
   let formStep;
@@ -73,7 +52,6 @@
   let fieldSchema;
   let value;
 
-  $: multirow = controlType != "select" && controlType != "inputSelect";
   $: formStep = formStepContext ? $formStepContext || 1 : 1;
   $: labelPos = field
     ? groupLabelPosition && labelPosition == "fieldGroup"
@@ -81,9 +59,16 @@
       : labelPosition
     : false;
 
+  $: field =
+    fieldType === "string" && fieldString
+      ? fieldString
+      : fieldType === "array" && fieldArray
+        ? fieldArray
+        : field;
+
   $: formField = formApi?.registerField(
     field,
-    "array",
+    fieldType,
     defaultValue,
     disabled,
     readonly,
@@ -97,7 +82,7 @@
     fieldSchema = value?.fieldSchema;
   });
 
-  $: value = fieldState?.value;
+  $: value = sanitizedValue(fieldState?.value);
   $: error = fieldState?.error;
 
   $: $component.styles = {
@@ -121,30 +106,41 @@
     defaultValue,
     error: fieldState?.error,
     controlType,
-    direction,
-    optionsSource,
+    suggestions,
     datasource,
     limit,
-    sortColumn,
-    sortOrder,
     filter,
     valueColumn,
-    labelColumn,
-    iconColumn,
-    colorColumn,
     optionsViewMode,
-    customOptions,
     role,
     icon,
     showDirty,
-    reorderOnly,
-    toggleAll,
   };
 
-  const handleChange = async (newValue) => {
-    value = newValue;
-    fieldApi?.setValue(newValue);
-    await onChange?.({ value: newValue });
+  const sanitizedValue = (val) => {
+    if (fieldType === "array") {
+      if (Array.isArray(val)) return val;
+      if (typeof val === "string" && val.trim() !== "")
+        return val.split(",").map((v) => v.trim());
+      return [];
+    } else {
+      // fieldType is string
+      if (Array.isArray(val)) return val;
+      if (typeof val === "string" && val.trim() !== "")
+        return val.split(",").map((v) => v.trim());
+      return [];
+    }
+  };
+
+  const handleChange = (newValue) => {
+    let before = fieldState?.value;
+    let sanitizedValue = newValue.filter(
+      (v) => v !== null && v !== undefined && v !== ""
+    );
+
+    onChange?.({ value: sanitizedValue });
+
+    fieldApi?.setValue(sanitizedValue);
   };
 
   onDestroy(() => {
@@ -159,7 +155,7 @@
 <div use:styleable={$component.styles}>
   <Provider data={{ value }} />
   <SuperField
-    {multirow}
+    multirow={true}
     {labelPos}
     {labelWidth}
     {field}
@@ -167,40 +163,12 @@
     {error}
     {helpText}
   >
-    {#if controlType == "select" || controlType == "inputSelect"}
-      <CellOptions
-        {cellOptions}
-        {fieldSchema}
-        {value}
-        {autofocus}
-        multi={true}
-        on:change={(e) => handleChange(e.detail)}
-      />
-    {:else}
-      <CellOptionsAdvanced
-        {cellOptions}
-        {fieldSchema}
-        {value}
-        {autofocus}
-        label={labelPos ? null : label}
-        multi={true}
-        on:change={(e) => handleChange(e.detail)}
-      />
-    {/if}
-
-    {#if buttons?.length && controlType != "list"}
-      <div class="inline-buttons" class:vertical={multirow}>
-        {#each buttons as { text, onClick, quiet, disabled, type, size }}
-          <SuperButton
-            {quiet}
-            {disabled}
-            {size}
-            {type}
-            {text}
-            on:click={enrichButtonActions(onClick, $allContext)({ value })}
-          />
-        {/each}
-      </div>
-    {/if}
+    <CellTags
+      {cellOptions}
+      {fieldSchema}
+      {value}
+      {autofocus}
+      on:change={(e) => handleChange(e.detail)}
+    />
   </SuperField>
 </div>

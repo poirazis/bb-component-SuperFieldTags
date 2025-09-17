@@ -21,10 +21,35 @@
     ],
     "settings": [
       {
+        "type": "select",
+        "label": "Field Type",
+        "key": "fieldType",
+        "defaultValue": "string",
+        "options": [
+          { "label": "Stringified", "value": "string" },
+          { "label": "Array", "value": "array" }
+        ]
+      },
+      {
+        "type": "field/string",
+        "label": "Field",
+        "key": "fieldString",
+        "resetOn": "fieldArray",
+        "dependsOn": {
+          "setting": "fieldType",
+          "value": "string"
+        },
+        "defaultValue": "tags"
+      },
+      {
         "type": "field/array",
         "label": "Field",
-        "key": "field",
-        "defaultValue": "Tags Field"
+        "key": "fieldArray",
+        "resetOn": "fieldString",
+        "dependsOn": {
+          "setting": "fieldType",
+          "value": "array"
+        }
       },
       {
         "type": "text",
@@ -68,27 +93,6 @@
       },
       {
         "type": "select",
-        "label": "Options source",
-        "key": "optionsSource",
-        "defaultValue": "schema",
-        "placeholder": "Pick an options source",
-        "options": [
-          {
-            "label": "Schema",
-            "value": "schema"
-          },
-          {
-            "label": "Data",
-            "value": "data"
-          },
-          {
-            "label": "Custom",
-            "value": "custom"
-          }
-        ]
-      },
-      {
-        "type": "select",
         "label": "Control Type",
         "key": "controlType",
         "defaultValue": "select",
@@ -101,18 +105,6 @@
           {
             "label": "Input Select",
             "value": "inputSelect"
-          },
-          {
-            "label": "Checkboxes",
-            "value": "checkbox"
-          },
-          {
-            "label": "Switches",
-            "value": "switch"
-          },
-          {
-            "label": "Ordered List",
-            "value": "list"
           }
         ]
       },
@@ -146,7 +138,7 @@
       {
         "section": true,
         "name": "Data Settings",
-        "dependsOn": { "setting": "optionsSource", "value": "data" },
+        "dependsOn": "suggestions",
         "settings": [
           {
             "type": "dataSource",
@@ -160,36 +152,10 @@
             "key": "filter"
           },
           {
-            "type": "field/sortable",
-            "label": "Sort column",
-            "key": "sortColumn",
-            "placeholder": "None"
-          },
-          {
-            "type": "select",
-            "label": "Sort order",
-            "key": "sortOrder",
-            "options": ["Ascending", "Descending"],
-            "defaultValue": "Ascending"
-          },
-          {
             "type": "field",
-            "label": "Value column",
+            "label": "Tag column",
             "key": "valueColumn",
-            "resetOn": ["datasource", "optionsSource"],
-            "defaultValue": "_id"
-          },
-          {
-            "type": "field",
-            "label": "Label column",
-            "key": "labelColumn",
-            "resetOn": "datasource"
-          },
-          {
-            "type": "field",
-            "label": "Icon column",
-            "key": "iconColumn",
-            "resetOn": "datasource"
+            "resetOn": ["datasource"]
           },
           {
             "type": "field",
@@ -245,45 +211,9 @@
       },
       {
         "type": "boolean",
-        "key": "toggleAll",
-        "label": "Toggle All",
-        "defaultValue": false,
-        "dependsOn": {
-          "setting": "controlType",
-          "value": "switch"
-        }
-      },
-      {
-        "type": "boolean",
-        "label": "Reorder Only",
-        "key": "reorderOnly",
-        "defaultValue": false,
-        "dependsOn": {
-          "setting": "controlType",
-          "value": "list"
-        }
-      },
-      {
-        "type": "icon",
-        "key": "icon",
-        "label": "Inline Icon"
-      },
-      {
-        "type": "buttonConfiguration",
-        "key": "buttons",
-        "wide": true,
-        "dependsOn": {
-          "setting": "controlType",
-          "value": "list",
-          "invert": true
-        },
-        "nested": true,
-        "context": [
-          {
-            "key": "value",
-            "label": "value"
-          }
-        ]
+        "label": "Suggestions",
+        "key": "suggestions",
+        "defaultValue": false
       },
       {
         "tag": "style",

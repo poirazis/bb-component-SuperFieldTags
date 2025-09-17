@@ -77,27 +77,27 @@ A versatile tags input component for Budibase applications with multiple control
 
 ## 🔧 Configuration Options
 
-| Setting           | Type    | Description                |
-| ----------------- | ------- | -------------------------- |
-| Field             | Array   | Tags field binding      |
-| Label             | String  | Display label text         |
-| Placeholder       | String  | Selection guidance text    |
-| Default Value     | Array   | Pre-selected tags       |
-| Help Text         | String  | Help/instruction text      |
-| Validation        | Rules   | Selection validation rules |
-| Tags Source    | Select  | Schema/Data/Custom tags |
-| Control Type      | Select  | Selection interface type   |
-| Direction         | Select  | Column/Row layout          |
-| Autofocus         | Boolean | Auto-focus on load         |
-| Debounced         | Boolean | Enable input debouncing    |
-| Disabled          | Boolean | Disable tag selection   |
-| Read Only         | Boolean | Read-only mode             |
-| Toggle All        | Boolean | Show select all toggle     |
-| Reorder Only      | Boolean | Pure reordering mode       |
-| Icon              | Icon    | Visual indicator icon      |
-| Field Mode        | Select  | Form or inline input style |
-| Label Position    | Select  | Label placement            |
-| Size              | Number  | Component width span       |
+| Setting        | Type    | Description                |
+| -------------- | ------- | -------------------------- |
+| Field          | Array   | Tags field binding         |
+| Label          | String  | Display label text         |
+| Placeholder    | String  | Selection guidance text    |
+| Default Value  | Array   | Pre-selected tags          |
+| Help Text      | String  | Help/instruction text      |
+| Validation     | Rules   | Selection validation rules |
+| Tags Source    | Select  | Schema/Data/Custom tags    |
+| Control Type   | Select  | Selection interface type   |
+| Direction      | Select  | Column/Row layout          |
+| Autofocus      | Boolean | Auto-focus on load         |
+| Debounced      | Boolean | Enable input debouncing    |
+| Disabled       | Boolean | Disable tag selection      |
+| Read Only      | Boolean | Read-only mode             |
+| Toggle All     | Boolean | Show select all toggle     |
+| Reorder Only   | Boolean | Pure reordering mode       |
+| Icon           | Icon    | Visual indicator icon      |
+| Field Mode     | Select  | Form or inline input style |
+| Label Position | Select  | Label placement            |
+| Size           | Number  | Component width span       |
 | Tags View Mode | Select  | Text/Color/Pills display   |
 
 ## 📋 Events
