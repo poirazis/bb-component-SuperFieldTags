@@ -109,33 +109,6 @@
         ]
       },
       {
-        "type": "select",
-        "label": "Direction",
-        "key": "direction",
-        "showInBar": true,
-        "barStyle": "buttons",
-        "dependsOn": {
-          "setting": "controlType",
-          "value": "select",
-          "invert": true
-        },
-        "options": [
-          {
-            "label": "Column",
-            "value": "column",
-            "barIcon": "ArrowDown",
-            "barTitle": "Column layout"
-          },
-          {
-            "label": "Row",
-            "value": "row",
-            "barIcon": "ArrowRight",
-            "barTitle": "Row layout"
-          }
-        ],
-        "defaultValue": "column"
-      },
-      {
         "section": true,
         "name": "Data Settings",
         "dependsOn": "suggestions",
@@ -156,12 +129,6 @@
             "label": "Tag column",
             "key": "valueColumn",
             "resetOn": ["datasource"]
-          },
-          {
-            "type": "field",
-            "label": "Color column",
-            "key": "colorColumn",
-            "resetOn": "datasource"
           }
         ]
       },
@@ -205,32 +172,9 @@
       },
       {
         "type": "boolean",
-        "key": "invisible",
-        "label": "Invisible",
-        "defaultValue": false
-      },
-      {
-        "type": "boolean",
         "label": "Suggestions",
         "key": "suggestions",
         "defaultValue": false
-      },
-      {
-        "tag": "style",
-        "type": "select",
-        "label": "Field Mode",
-        "key": "role",
-        "defaultValue": "formInput",
-        "options": [
-          {
-            "label": "Form Input",
-            "value": "formInput"
-          },
-          {
-            "label": "Inline Input",
-            "value": "inlineInput"
-          }
-        ]
       },
       {
         "tag": "style",
@@ -264,6 +208,23 @@
             "value": "left",
             "barIcon": "MarginLeft",
             "barTitle": "Left"
+          }
+        ]
+      },
+      {
+        "tag": "style",
+        "type": "select",
+        "label": "Field Mode",
+        "key": "role",
+        "defaultValue": "formInput",
+        "options": [
+          {
+            "label": "Form Input",
+            "value": "formInput"
+          },
+          {
+            "label": "Inline Input",
+            "value": "inlineInput"
           }
         ]
       },
@@ -306,6 +267,13 @@
         "type": "boolean",
         "key": "showDirty",
         "label": "Show Dirty",
+        "defaultValue": false
+      },
+      {
+        "tag": "style",
+        "type": "boolean",
+        "key": "invisible",
+        "label": "Invisible",
         "defaultValue": false
       }
     ]

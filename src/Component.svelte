@@ -53,11 +53,10 @@
   let value;
 
   $: formStep = formStepContext ? $formStepContext || 1 : 1;
-  $: labelPos = field
-    ? groupLabelPosition && labelPosition == "fieldGroup"
+  $: labelPos =
+    groupLabelPosition !== undefined && labelPosition == "fieldGroup"
       ? groupLabelPosition
-      : labelPosition
-    : false;
+      : labelPosition;
 
   $: field =
     fieldType === "string" && fieldString
