@@ -132,14 +132,10 @@
   };
 
   const handleChange = (newValue) => {
-    let before = fieldState?.value;
-    let sanitizedValue = newValue.filter(
-      (v) => v !== null && v !== undefined && v !== ""
-    );
+    let preparedValue = fieldType === "array" ? newValue : newValue.join(",");
 
-    onChange?.({ value: sanitizedValue });
-
-    fieldApi?.setValue(sanitizedValue);
+    onChange?.({ value: preparedValue });
+    fieldApi?.setValue(preparedValue);
   };
 
   onDestroy(() => {

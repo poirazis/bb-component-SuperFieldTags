@@ -1,6 +1,8 @@
 {
   "type": "component",
-  "metadata": {},
+  "metadata": {
+    "svelteMajor": 5
+  },
   "schema": {
     "name": "bb-component-SuperFieldTags",
     "friendlyName": "Super Field - Tags",
@@ -26,8 +28,14 @@
         "key": "fieldType",
         "defaultValue": "string",
         "options": [
-          { "label": "Stringified", "value": "string" },
-          { "label": "Array", "value": "array" }
+          {
+            "label": "Stringified",
+            "value": "string"
+          },
+          {
+            "label": "Array",
+            "value": "array"
+          }
         ]
       },
       {
@@ -128,7 +136,9 @@
             "type": "field",
             "label": "Tag column",
             "key": "valueColumn",
-            "resetOn": ["datasource"]
+            "resetOn": [
+              "datasource"
+            ]
           }
         ]
       },
